@@ -1,2 +1,2 @@
-# golog
-golog is a log helper for golang.
+# golok
+golok is a log helper for golang.
