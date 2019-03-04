@@ -20,7 +20,6 @@ func defaultLog() contract.Loggable {
 		defaultHandlerName := logManager.GetConfig("default", "syslog").(string)
 		defaultLogger = logManager.GetLog(defaultHandlerName)
 	}
-
 	return defaultLogger
 }
 
@@ -28,12 +27,12 @@ func Debug(msg string) {
 	defaultLog().Debug(msg)
 }
 
-func Error(msg string) {
-	defaultLog().Error(msg)
+func Error(err error) {
+	defaultLog().Error(err)
 }
 
-func Critical(msg string) {
-	defaultLog().Critical(msg)
+func Critical(err error) {
+	defaultLog().Critical(err)
 }
 
 func Warning(msg string) {
@@ -44,22 +43,6 @@ func Info(msg string) {
 	defaultLog().Info(msg)
 }
 
-func Debugf(format string, params ...interface{}) {
-	defaultLog().Debugf(format, params...)
-}
-func Errorf(format string, params ...interface{}) {
-	defaultLog().Errorf(format, params...)
-}
-func Criticalf(format string, params ...interface{}) {
-	defaultLog().Criticalf(format, params...)
-}
-func Warningf(format string, params ...interface{}) {
-	defaultLog().Warningf(format, params...)
-}
-func Infof(format string, params ...interface{}) {
-	defaultLog().Infof(format, params...)
-}
-
 func Stack(channels []string) *stack.StackHandler {
-	return stack.NewHandler(channels, nil)
+	return stack.NewHandler(channels, logManager)
 }

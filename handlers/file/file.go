@@ -19,7 +19,9 @@ func format(level string, message string) string {
 }
 
 func (handler FileHandler) write(level string, message string) {
-	handler.logger.Println(format(level, message))
+	if util.LevelLte(handler.level, level) {
+		handler.logger.Output(5, util.Format(level, message))
+	}
 }
 
 func getWritter(path string) io.Writer {
@@ -44,7 +46,7 @@ func NewHandler(config map[string]interface{}) *FileHandler {
 		fileName = fmt.Sprintf("%s-%s", time.Now().Format("2006-01-02"))
 	}
 	filePath := fmt.Sprintf("%s/%s.log", config["path"].(string), fileName)
-	logger := log.New(getWritter(filePath), "", log.Lshortfile|log.LUTC)
+	logger := log.New(getWritter(filePath), "", log.Llongfile|log.LUTC)
 	return &FileHandler{
 		level:  util.MapGet(config, "level", "error").(string),
 		logger: logger,
@@ -52,61 +54,21 @@ func NewHandler(config map[string]interface{}) *FileHandler {
 }
 
 func (handler *FileHandler) Debug(message string) {
-	if util.LevelGte(handler.level, "debug") {
-		handler.write("debug", message)
-	}
+	handler.write("debug", message)
 }
 
 func (handler *FileHandler) Info(message string) {
-	if util.LevelGte(handler.level, "info") {
-		handler.write("info", message)
-	}
+	handler.write("info", message)
 }
 
 func (handler *FileHandler) Warning(message string) {
-	if util.LevelGte(handler.level, "warning") {
-		handler.write("warning", message)
-	}
+	handler.write("warning", message)
 }
 
-func (handler *FileHandler) Error(message string) {
-	if util.LevelGte(handler.level, "error") {
-		handler.write("error", message)
-	}
+func (handler *FileHandler) Error(err error) {
+	handler.write("error", err.Error())
 }
 
-func (handler *FileHandler) Critical(message string) {
-	if util.LevelGte(handler.level, "critical") {
-		handler.write("critical", message)
-	}
-}
-
-func (handler *FileHandler) Debugf(format string, params ...interface{}) {
-	if util.LevelGte(handler.level, "debug") {
-		handler.write("debug", fmt.Sprintf(format, params...))
-	}
-}
-
-func (handler *FileHandler) Infof(format string, params ...interface{}) {
-	if util.LevelGte(handler.level, "info") {
-		handler.write("info", fmt.Sprintf(format, params...))
-	}
-}
-
-func (handler *FileHandler) Warningf(format string, params ...interface{}) {
-	if util.LevelGte(handler.level, "warning") {
-		handler.write("warning", fmt.Sprintf(format, params...))
-	}
-}
-
-func (handler *FileHandler) Errorf(format string, params ...interface{}) {
-	if util.LevelGte(handler.level, "error") {
-		handler.write("error", fmt.Sprintf(format, params...))
-	}
-}
-
-func (handler *FileHandler) Criticalf(format string, params ...interface{}) {
-	if util.LevelGte(handler.level, "critical") {
-		handler.write("critical", fmt.Sprintf(format, params...))
-	}
+func (handler *FileHandler) Critical(err error) {
+	handler.write("critical", err.Error())
 }

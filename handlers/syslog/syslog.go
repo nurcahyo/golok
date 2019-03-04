@@ -1,87 +1,47 @@
 package syslog
 
 import (
-	"fmt"
 	"log"
+	"os"
 
 	"github.com/nurcahyo/golok/util"
 )
 
 type SyslogHandler struct {
-	level string
+	level  string
+	logger *log.Logger
 }
 
-func format(level string, message string) string {
-	return fmt.Sprintf("[%s] %s", level, message)
-}
-
-func write(level string, message string) {
-	log.Println(format(level, message))
+func (handler *SyslogHandler) write(level string, message string) {
+	if util.LevelLte(handler.level, level) {
+		log.Output(5, util.Format(level, message))
+	}
 }
 
 // NewHandler Create a new Stack Handler
 func NewHandler(config map[string]interface{}) *SyslogHandler {
 	return &SyslogHandler{
-		level: util.MapGet(config, "level", "error").(string),
+		level:  util.MapGet(config, "level", "error").(string),
+		logger: log.New(os.Stderr, "", log.Llongfile|log.LUTC|log.Lmicroseconds),
 	}
 }
 
 func (handler *SyslogHandler) Debug(message string) {
-	if util.LevelGte(handler.level, "debug") {
-		write("debug", message)
-	}
+	handler.write("debug", message)
 }
 
 func (handler *SyslogHandler) Info(message string) {
-	if util.LevelGte(handler.level, "info") {
-		write("info", message)
-	}
+	handler.write("info", message)
 }
 
 func (handler *SyslogHandler) Warning(message string) {
-	if util.LevelGte(handler.level, "warning") {
-		write("warning", message)
-	}
+	handler.write("warning", message)
 }
 
-func (handler *SyslogHandler) Error(message string) {
-	if util.LevelGte(handler.level, "error") {
-		write("error", message)
-	}
+func (handler *SyslogHandler) Error(err error) {
+	handler.write("error", err.Error())
 }
 
-func (handler *SyslogHandler) Critical(message string) {
-	if util.LevelGte(handler.level, "critical") {
-		write("critical", message)
-	}
-}
-
-func (handler *SyslogHandler) Debugf(format string, params ...interface{}) {
-	if util.LevelGte(handler.level, "debug") {
-		write("debug", fmt.Sprintf(format, params...))
-	}
-}
-
-func (handler *SyslogHandler) Infof(format string, params ...interface{}) {
-	if util.LevelGte(handler.level, "info") {
-		write("info", fmt.Sprintf(format, params...))
-	}
-}
-
-func (handler *SyslogHandler) Warningf(format string, params ...interface{}) {
-	if util.LevelGte(handler.level, "warning") {
-		write("warning", fmt.Sprintf(format, params...))
-	}
-}
-
-func (handler *SyslogHandler) Errorf(format string, params ...interface{}) {
-	if util.LevelGte(handler.level, "error") {
-		write("error", fmt.Sprintf(format, params...))
-	}
-}
-
-func (handler *SyslogHandler) Criticalf(format string, params ...interface{}) {
-	if util.LevelGte(handler.level, "critical") {
-		write("critical", fmt.Sprintf(format, params...))
-	}
+func (handler *SyslogHandler) Critical(err error) {
+	handler.write("critical", err.Error())
 }
