@@ -16,7 +16,7 @@ Use go get -u to update the package.
 To config you just need a map. 
 You can use json file and unmarshall it to map[string]interface{} or just use map[string]interface{} on your code.
 Example config:
-```
+```go
 var config = map[string]interface{}{
 	"default": "stack",
 	"channels": map[string]interface{}{
@@ -61,7 +61,7 @@ As previously mentioned, the stack driver allows you to combine multiple channel
 
 On the example config above you can see this code part.
 
-```
+```go
 ...
 "stack": map[string]interface{}{
   "channels": []string{"system", "file"},
@@ -81,18 +81,18 @@ You may write information to the logs using golok package. The logger provides t
 - Critical
 
 To write the log message you need to import package first
-```
+```go
 import github.com/nurcahyo/golok
 ```
 After import write the config for example use the example config on **Configuring Slack channel** sections above.
 And then initialize the config
 
-```
+```go
 golok.Initialize(config)
 ```
 
 After that you can call log level function directly from any source that import the golok package.
-```
+```go
 golok.Debug("test log")
 golok.Error(errors.New("Iam test log"))
 golok.Stack([]string{"sentry"}).Debug("Test stack with sentry log below config level")
