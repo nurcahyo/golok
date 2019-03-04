@@ -2,7 +2,7 @@
 Golok is a logger for golang, for easy logging in your programs.
 Golok here to help you learn more about what's happening within your application, Golok provides robust logging services that allow you to log messages to files, the system error log, and [sentry](https://sentry.io)
 
-Golok inspired by laravel logging.
+Golok inspired by laravel logger facades.
 
 ## Install
 ```
