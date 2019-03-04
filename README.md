@@ -103,11 +103,15 @@ For full example see test file [golok_test](https://github.com/nurcahyo/golok/bl
 
 
 ## Future Development Plan
-
+- Improve code test file
 - Decorate syslog output
 - Add ability to write log to Specific Channels for example: `golok.Only("file").Debug("Write to file")`
 - Add New Relic Driver
 - Add Slack Notification Driver
-- Add contextual information for example: `golok.Info("Create post failed", map[string]interface{"user_id": 1}))
+- Add contextual information for example: `golok.Info("Create post failed", map[string]interface{"user_id": 1}))`
 
+
+## Contribute 
+- Fork this repo and create a Pull Request
+- Dont forget to write a test file 
 
