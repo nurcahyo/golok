@@ -1,4 +1,4 @@
-package lok
+package golok
 
 import (
 	"errors"
