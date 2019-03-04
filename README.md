@@ -103,6 +103,7 @@ For full example see test file [golok_test](https://github.com/nurcahyo/golok/bl
 
 
 ## Future Development Plan
+- Add comment block to every public methods
 - Improve code test file
 - Decorate syslog output
 - Add ability to write log to Specific Channels for example: `golok.Only("file").Debug("Write to file")`
