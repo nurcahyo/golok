@@ -100,3 +100,14 @@ golok.Stack([]string{"sentry"}).Error(errors.New("Test stack with sentry log pus
 ```
 
 For full example see test file [golok_test](https://github.com/nurcahyo/golok/blob/master/golok_test.go)
+
+
+## Future Development Plan
+
+- Decorate syslog output
+- Add ability to write log to Specific Channels for example: `golok.Only("file").Debug("Write to file")`
+- Add New Relic Driver
+- Add Slack Notification Driver
+- Add contextual information for example: `golok.Info("Create post failed", map[string]interface{"user_id": 1}))
+
+
