@@ -43,7 +43,7 @@ func NewHandler(config map[string]interface{}) *FileHandler {
 	isDaily := util.MapGet(config, "isDaily", false).(bool)
 	fileName := util.MapGet(config, "filename", "log").(string)
 	if isDaily {
-		fileName = fmt.Sprintf("%s-%s", time.Now().Format("2006-01-02"))
+		fileName = fmt.Sprintf("%s-%s", fileName, time.Now().Format("2006-01-02"))
 	}
 	filePath := fmt.Sprintf("%s/%s.log", config["path"].(string), fileName)
 	logger := log.New(getWritter(filePath), "", log.Llongfile|log.LUTC)
