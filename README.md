@@ -101,6 +101,13 @@ golok.Stack([]string{"sentry"}).Error(errors.New("Test stack with sentry log pus
 
 For full example see test file [golok_test](https://github.com/nurcahyo/golok/blob/master/golok_test.go)
 
+### Sentry 
+As you see in configuration and  available driver, we have sentry driver. Here is example output of sentry driver in sentry dashboard
+![](https://qas-shared-assets.s3.amazonaws.com/snaps/g7i1by62kw)
+
+
+![](https://qas-shared-assets.s3.amazonaws.com/snaps/yjg0nzebyjh)
+
 
 ## Future Development Plan
 - Add comment block to every public methods
