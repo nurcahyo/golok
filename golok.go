@@ -15,8 +15,25 @@ func Initialize(cfg map[string]interface{}) {
 	logManager = manager.NewLogManager(cfg)
 }
 
+func ensureLogManager() {
+	if logManager != nil {
+		return
+	}
+
+	logManager = manager.NewLogManager(map[string]interface{}{
+		"default": "system",
+		"channels": map[string]interface{}{
+			"system": map[string]interface{}{
+				"level":  "debug",
+				"driver": "syslog",
+			},
+		},
+	})
+}
+
 func defaultLog() contract.Loggable {
 	if defaultLogger == nil {
+		ensureLogManager()
 		defaultHandlerName := logManager.GetConfig("default", "syslog").(string)
 		defaultLogger = logManager.GetLog(defaultHandlerName)
 	}
