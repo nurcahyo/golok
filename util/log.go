@@ -11,7 +11,7 @@ var logLevelScore = map[string]int8{
 }
 
 func LevelLte(a string, b string) bool {
-	return a <= b
+	return logLevelScore[a] <= logLevelScore[b]
 }
 
 func Format(level string, message string) string {
